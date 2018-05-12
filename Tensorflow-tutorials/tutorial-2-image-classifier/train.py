@@ -14,7 +14,7 @@ from tensorflow import set_random_seed
 set_random_seed(2)
 
 
-batch_size = 20
+batch_size = 100
 
 #Prepare input data
 classes = os.listdir('training_data')
@@ -57,6 +57,12 @@ num_filters_conv3 = 64
 
 filter_size_conv4 = 3
 num_filters_conv4 = 64
+
+filter_size_conv5 = 5
+num_filters_conv5 = 64
+
+filter_size_conv6 = 5
+num_filters_conv6 = 128
     
 fc_layer_size = 128
 
@@ -147,8 +153,20 @@ layer_conv4= create_convolutional_layer(input=layer_conv3,
                num_input_channels=num_filters_conv3,
                conv_filter_size=filter_size_conv4,
                num_filters=num_filters_conv4)
+
+
+layer_conv5= create_convolutional_layer(input=layer_conv4,
+               num_input_channels=num_filters_conv4,
+               conv_filter_size=filter_size_conv5,
+               num_filters=num_filters_conv5)
+
+
+layer_conv6= create_convolutional_layer(input=layer_conv5,
+               num_input_channels=num_filters_conv5,
+               conv_filter_size=filter_size_conv6,
+               num_filters=num_filters_conv6)
           
-layer_flat = create_flatten_layer(layer_conv4)
+layer_flat = create_flatten_layer(layer_conv6)
 
 layer_fc1 = create_fc_layer(input=layer_flat,
                      num_inputs=layer_flat.get_shape()[1:4].num_elements(),
@@ -186,6 +204,7 @@ total_iterations = 0
 saver = tf.train.Saver()
 def train(num_iteration):
     global total_iterations
+    print("Batch size is :",batch_size)
     with tf.device('device:GPU:0'):
     
         for i in range(total_iterations,
@@ -212,4 +231,4 @@ def train(num_iteration):
     
         total_iterations += num_iteration
 
-train(num_iteration=3000)
+train(num_iteration=10000)
