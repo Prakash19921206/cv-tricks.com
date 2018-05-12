@@ -139,8 +139,13 @@ layer_conv3= create_convolutional_layer(input=layer_conv2,
                num_input_channels=num_filters_conv2,
                conv_filter_size=filter_size_conv3,
                num_filters=num_filters_conv3)
+
+layer_conv4= create_convolutional_layer(input=layer_conv3,
+               num_input_channels=num_filters_conv2,
+               conv_filter_size=filter_size_conv3,
+               num_filters=num_filters_conv3)
           
-layer_flat = create_flatten_layer(layer_conv3)
+layer_flat = create_flatten_layer(layer_conv4)
 
 layer_fc1 = create_fc_layer(input=layer_flat,
                      num_inputs=layer_flat.get_shape()[1:4].num_elements(),
